@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin: 50px 0 0 50px">
     <el-upload 
       ref="uploadRef" 
       multiple
@@ -245,10 +245,9 @@ const uploadFileWithChunks = async (fileData) => {
     // 检查是否所有分块都已上传（文件已完成）
     if (uploadedChunks.length === totalChunks) {
       console.log(`[${fileName}] 本地记录显示文件已完成，尝试合并验证...`)
-      
       try {
-        // 🔍 尝试调用合并接口验证文件是否真实存在
-        const mergeResult = await request.post('/merge-chunks', {
+        // 🔍 第二重验证：调用后端接口确认文件是否真实存在
+        await request.post('/merge-chunks', {
           filename: fileName,
           fileId: fileId,
           totalChunks
